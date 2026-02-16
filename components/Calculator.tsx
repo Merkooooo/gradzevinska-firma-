@@ -44,7 +44,7 @@ const Calculator: React.FC = () => {
           <div className="lg:col-span-2 space-y-8">
             
             {/* Step 1: Type */}
-            <div className="glass-panel p-6 rounded-2xl border border-white/5 no-print">
+            <div className="glass-panel p-6 rounded-2xl border border-white/5 no-print animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <div className="flex items-center mb-6">
                 <div className="bg-gold-500/20 p-2 rounded-lg mr-4">
                   <PenTool className="text-gold-500 h-6 w-6" />
@@ -56,7 +56,7 @@ const Calculator: React.FC = () => {
                   <button
                     key={type.id}
                     onClick={() => setActiveType(type)}
-                    className={`p-4 rounded-xl border transition-all duration-300 flex flex-col items-center justify-center gap-3
+                    className={`p-4 rounded-xl border transition-all duration-300 flex flex-col items-center justify-center gap-3 transform hover:scale-[1.02] active:scale-95
                       ${activeType.id === type.id 
                         ? 'bg-gold-500 border-gold-500 text-stone-900 shadow-lg shadow-gold-500/20' 
                         : 'bg-stone-900 border-stone-800 text-stone-400 hover:border-stone-600'
@@ -69,7 +69,7 @@ const Calculator: React.FC = () => {
             </div>
 
             {/* Step 2: Material */}
-            <div className="glass-panel p-6 rounded-2xl border border-white/5 no-print">
+            <div className="glass-panel p-6 rounded-2xl border border-white/5 no-print animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <div className="flex items-center mb-6">
                  <div className="bg-gold-500/20 p-2 rounded-lg mr-4">
                   <Layers className="text-gold-500 h-6 w-6" />
@@ -81,9 +81,9 @@ const Calculator: React.FC = () => {
                   <button
                     key={mat.id}
                     onClick={() => setActiveMaterial(mat)}
-                    className={`w-full p-4 rounded-xl border text-left transition-all duration-300 flex items-center justify-between group
+                    className={`w-full p-4 rounded-xl border text-left transition-all duration-300 flex items-center justify-between group transform hover:scale-[1.01] active:scale-[0.99]
                       ${activeMaterial.id === mat.id 
-                        ? 'bg-white/10 border-gold-500/50' 
+                        ? 'bg-white/10 border-gold-500/50 shadow-md' 
                         : 'bg-stone-900 border-stone-800 hover:bg-stone-800'
                       }`}
                   >
@@ -95,7 +95,7 @@ const Calculator: React.FC = () => {
                     </div>
                     <div className="text-right">
                       <div className="text-stone-300 font-mono font-bold">{mat.pricePerSqm} €/m²</div>
-                      {activeMaterial.id === mat.id && <Check className="h-5 w-5 text-gold-500 mt-2 ml-auto" />}
+                      {activeMaterial.id === mat.id && <Check className="h-5 w-5 text-gold-500 mt-2 ml-auto animate-bounce" />}
                     </div>
                   </button>
                 ))}
@@ -103,7 +103,7 @@ const Calculator: React.FC = () => {
             </div>
 
             {/* Step 3: Size */}
-            <div className="glass-panel p-6 rounded-2xl border border-white/5 no-print">
+            <div className="glass-panel p-6 rounded-2xl border border-white/5 no-print animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="flex items-center mb-6">
                 <div className="bg-gold-500/20 p-2 rounded-lg mr-4">
                   <Maximize className="text-gold-500 h-6 w-6" />
@@ -118,11 +118,11 @@ const Calculator: React.FC = () => {
                   step="5"
                   value={size}
                   onChange={(e) => setSize(parseInt(e.target.value))}
-                  className="w-full h-2 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-gold-500"
+                  className="w-full h-2 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-gold-500 hover:accent-gold-400 transition-colors"
                 />
                 <div className="flex justify-between mt-6 text-stone-400 text-sm font-mono">
                   <span>20 m²</span>
-                  <span className="text-3xl font-bold text-white -mt-4">{size} m²</span>
+                  <span className="text-3xl font-bold text-white -mt-4 transition-all duration-300 transform scale-100 hover:scale-110">{size} m²</span>
                   <span>500 m²</span>
                 </div>
               </div>
@@ -130,10 +130,10 @@ const Calculator: React.FC = () => {
           </div>
 
           {/* Result / Summary Section */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 animate-fade-in" style={{ animationDelay: '0.4s' }}>
             <div className="sticky top-28 bg-stone-900 border border-gold-500/20 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
               {/* Decorative glow */}
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-gold-500/10 rounded-full blur-3xl animate-pulse"></div>
 
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
                 <DollarSign className="mr-2 text-gold-500" /> Vaša Ponudba
@@ -169,13 +169,13 @@ const Calculator: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-end pt-4 border-t border-stone-700">
                   <span className="text-lg font-bold text-white">SKUPAJ</span>
-                  <span className={`text-3xl font-bold text-gold-500 font-mono transition-opacity duration-300 ${loading ? 'opacity-50' : 'opacity-100'}`}>
+                  <span className={`text-3xl font-bold text-gold-500 font-mono transition-all duration-300 ${loading ? 'opacity-50 blur-sm' : 'opacity-100 blur-0'}`}>
                     {finalPrice.toLocaleString('sl-SI', { maximumFractionDigits: 0 })} €
                   </span>
                 </div>
               </div>
 
-              <button onClick={handlePrint} className="w-full bg-stone-100 hover:bg-white text-stone-950 font-bold py-4 rounded-xl flex items-center justify-center transition-colors mb-3 no-print">
+              <button onClick={handlePrint} className="w-full bg-stone-100 hover:bg-white text-stone-950 font-bold py-4 rounded-xl flex items-center justify-center transition-colors mb-3 no-print transform hover:scale-[1.02] active:scale-95">
                 <Download className="mr-2 h-5 w-5" /> Prenesi PDF Ponudbo
               </button>
               
